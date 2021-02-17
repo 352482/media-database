@@ -9,7 +9,7 @@
 using namespace std;
 
 int main(){
-	vector<Media*> media_vector;
+	vector<Media*> *media_vector = new vector<Media*>;
 	char input_buffer[100];
 	while (true){
 		input_buffer[0] = '\0';
@@ -20,7 +20,7 @@ int main(){
 			input_buffer[i] = toupper(input_buffer[i]);
 		}
 		if (strcmp("ADD",input_buffer)==0){
-			char media_type[20];
+			char media_type[50];
 			bool invalid_input = true;
 			cout << "What type of media? (GAME, MUSIC, or MOVIE): ";
 			cin >> media_type;
@@ -38,8 +38,9 @@ int main(){
 				}
 			}
 			cout << "Enter title: ";
+			cin.clear(); cin.ignore();
 			char title_buf[100];
-			cin >> title_buf;
+			cin.getline(title_buf,100);
 			cout << "Enter year: ";
 			int year;
 			while (!(cin >> year)){
@@ -49,13 +50,15 @@ int main(){
 			}
 			if (strcmp("GAME",media_type)==0){
 				cout << "Enter rating: ";
-				char rating_buf[20];
-				cin >> rating_buf;
+				cin.clear(); cin.ignore();
+				char rating_buf[50];
+				cin.getline(rating_buf,50);
 				cout << "Enter publisher: ";
-				char publisher_buf[20];
-				cin >> publisher_buf;
-				Game *new_game = new Game(title_buf, year, rating_buf, publisher_buf);
-				media_vector.push_back((Media*)new_game);
+				cin.clear(); cin.sync();
+				char publisher_buf[50];
+				cin.get(publisher_buf,50);
+				Game *new_game = new Game(title_buf, year, publisher_buf, rating_buf);
+				media_vector->push_back((Media*)new_game);
 				cout << "Game added." << endl;
 			}else if (strcmp("MUSIC",media_type)==0){
 				cout << "Enter duration: ";
@@ -66,13 +69,15 @@ int main(){
 					cin.ignore(100,'\n');
 				}
 				cout << "Enter artist: ";
-				char artist_buf[20];
-				cin >> artist_buf;
+				cin.clear(); cin.ignore();
+				char artist_buf[50];
+				cin.getline(artist_buf,50);
 				cout << "Enter publisher: ";
-				char publisher_buf[20];
-				cin >> publisher_buf;
+				cin.clear(); cin.sync();
+				char publisher_buf[50];
+				cin.get(publisher_buf,50);
 				Music *new_song = new Music(title_buf, year, duration, artist_buf, publisher_buf);
-				media_vector.push_back((Media*)new_song);
+				media_vector->push_back((Media*)new_song);
 				cout << "Song added." << endl;
 			}else if (strcmp("MOVIE",media_type)==0){
 				cout << "Enter duration: ";
@@ -83,14 +88,62 @@ int main(){
 					cin.ignore(100,'\n');
 				}
 				cout << "Enter director: ";
-				char director_buf[20];
-				cin >> director_buf;
+				cin.clear(); cin.ignore();
+				char director_buf[50];
+				cin.getline(director_buf,50);
 				cout << "Enter rating: ";
-				char rating_buf[20];
-				cin >> rating_buf;
+				cin.clear(); cin.sync();
+				char rating_buf[50];
+				cin.get(rating_buf,50);
 				Movie *new_movie = new Movie(title_buf, year, rating_buf, director_buf, duration);
-				media_vector.push_back((Media*)new_movie);
+				media_vector->push_back((Media*)new_movie);
 				cout << "Movie added." << endl;
+			}
+		}else if(strcmp("SEARCH",input_buffer)==0){
+			cout << "Enter title: ";
+			cin.clear(); cin.ignore();
+			char title_buffer[50];
+			cin.getline(title_buffer,50);
+			bool search_complete = false;
+			for (vector<Media*>::iterator it = media_vector->begin(); it != media_vector->end(); ++it){
+				Media* generic_media = *it;
+				if (strcmp(title_buffer,generic_media->getTitle())==0){
+					generic_media->print();
+					search_complete = true;
+				}
+			}
+			if (!search_complete){
+				cout << "No media found with that title." << endl;
+			}
+		}else if(strcmp("DELETE",input_buffer)==0){
+			cout << "Enter title: ";
+			cin.clear(); cin.ignore();
+			char title_buffer[50];
+			cin.getline(title_buffer,50);
+			bool search_complete = false;
+			vector<Media*> match_vector;
+			for (vector<Media*>::iterator it = media_vector->begin(); it != media_vector->end(); ++it){
+				Media* generic_media = *it;
+				if (strcmp(title_buffer,generic_media->getTitle())==0){
+					if (!search_complete){
+						cout << "--MATCHING-MEDIA--" << endl;
+					}
+					generic_media->print();
+					search_complete = true;
+					char erase_input_buf[10];
+					erase_input_buf[0]='\0';
+					while (strcmp("y",erase_input_buf)!=0 && strcmp("n",erase_input_buf)!=0){
+						cout << "Delete? (y/n): " << endl;
+						cin >> erase_input_buf;
+					}
+					if (strcmp("y",erase_input_buf)==0){
+						media_vector->erase(it);
+						--it;
+					}
+				}
+			}
+			if (!search_complete){
+				cout << "No media found with that title." << endl;
 			}
 		}else{
 			cout << "Unknown command. Use HELP for a list of commands." << endl;

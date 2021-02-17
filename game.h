@@ -1,3 +1,7 @@
+#include <iostream>
+
+using namespace std;
+
 class Game : Media{
 	private:
 	char * publisher;
@@ -7,10 +11,18 @@ class Game : Media{
 		publisher = _publisher;
 		rating = _rating;
 	}
-	
+
 	~Game(){
 		delete publisher;
 		delete rating;
+	}
+
+	void print(){
+		cout << "----GAME----" << endl;
+		cout << "Title: " << title << endl;
+		cout << "Year: " << year << endl;
+		cout << "Rating: " << rating << endl;
+		cout << "Publisher: " << publisher << endl;
 	}
 
 	char * getPublisher(){

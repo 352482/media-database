@@ -1,3 +1,7 @@
+#include <iostream>
+
+using namespace std;
+
 class Movie : Media{
 	private:
 	char * rating;
@@ -13,6 +17,15 @@ class Movie : Media{
 	~Movie(){
 		delete rating;
 		delete director;
+	}
+
+	void print(){
+		cout << "----MOVIE----" << endl;
+		cout << "Title: " << title << endl;
+		cout << "Year: " << year << endl;
+		cout << "Rating: " << rating << endl;
+		cout << "Director: " << director << endl;
+		cout << "Duration: " << duration << endl;
 	}
 
 	char * getRating(){

@@ -1,5 +1,5 @@
 class Media{
-	private:
+	protected:
 	char * title;
 	int year;
 	public:
@@ -8,9 +8,11 @@ class Media{
 		year = _year;
 	}
 
-	~Media(){
+	virtual ~Media(){
 		delete title;
 	}
+
+	virtual void print(){}
 
 	char * getTitle(){
 		return title;

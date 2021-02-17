@@ -1,3 +1,7 @@
+#include <iostream>
+
+using namespace std;
+
 class Music : Media{
 	private:
 	char * artist;
@@ -13,6 +17,15 @@ class Music : Media{
 	~Music(){
 		delete artist;
 		delete publisher;
+	}
+
+	void print(){
+		cout << "----SONG----" << endl;
+		cout << "Title: " << title << endl;
+		cout << "Year: " << year << endl;
+		cout << "Artist: " << artist << endl;
+		cout << "Publisher: " << publisher << endl;
+		cout << "Duration: " << duration << endl;
 	}
 
 	char * getArtist(){
