@@ -2,23 +2,27 @@
 
 using namespace std;
 
+//derive Music from Media
 class Music : Media{
 	private:
 	char * artist;
 	char * publisher;
 	int duration;
 	public:
+	//call the Media constructor with the Music constructor
 	Music(char* _title, int _year, int _duration, char* _artist, char* _publisher) : Media(_title, _year){
 		artist = _artist;
 		publisher = _publisher;
 		duration = _duration;
 	}
-	
+
+	//delete the allocated char arrays
 	~Music(){
 		delete artist;
 		delete publisher;
 	}
 
+	//override Media's virtual print function
 	void print(){
 		cout << "----SONG----" << endl;
 		cout << "Title: " << title << endl;

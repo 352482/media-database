@@ -8,10 +8,13 @@ class Media{
 		year = _year;
 	}
 
-	virtual ~Media(){
+	//delete the char array allocated to the title
+	~Media(){
 		delete title;
 	}
 
+	//make the print() function virtual so
+	//that derive classes can print their information
 	virtual void print(){}
 
 	char * getTitle(){
