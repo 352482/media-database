@@ -7,6 +7,7 @@
 #include <iostream>
 #include <ctype.h>
 #include <vector>
+#include <cstring>
 #include "media.h"
 #include "game.h"
 #include "music.h"
