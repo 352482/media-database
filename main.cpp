@@ -122,7 +122,7 @@ int main(){
 				cout << "Movie added." << endl;
 			}
 		}else if(strcmp("SEARCH",input_buffer)==0){
-			cout << "Enter title: ";
+			cout << "Enter title or year of release: ";
 			cin.clear(); cin.ignore();
 			char title_buffer[50];
 			cin.getline(title_buffer,50);
@@ -130,7 +130,10 @@ int main(){
 			//iterate through all the Media objects in the vector
 			for (vector<Media*>::iterator it = media_vector->begin(); it != media_vector->end(); ++it){
 				Media* generic_media = *it;
-				if (strcmp(title_buffer,generic_media->getTitle())==0){
+				char year_buf[10];
+				sprintf(year_buf,"%d",generic_media->getYear());
+				if (strcmp(title_buffer,generic_media->getTitle())==0
+					|| strcmp(title_buffer,year_buf)==0){
 					//call the virtual print() function
 					//of the generic Media object
 					generic_media->print();
@@ -141,7 +144,7 @@ int main(){
 				cout << "No media found with that title." << endl;
 			}
 		}else if(strcmp("DELETE",input_buffer)==0){
-			cout << "Enter title: ";
+			cout << "Enter title or year of release: ";
 			cin.clear(); cin.ignore();
 			char title_buffer[50];
 			cin.getline(title_buffer,50);
@@ -150,10 +153,13 @@ int main(){
 			//iterate through all of the Media objects in the vector
 			for (vector<Media*>::iterator it = media_vector->begin(); it != media_vector->end(); ++it){
 				Media* generic_media = *it;
+				char year_buf[10];
+				sprintf(year_buf,"%d",generic_media->getYear());
 				//if the title of the current Media object matches the
 				//query, call print() and ask the user if they would like
 				//to delete it
-				if (strcmp(title_buffer,generic_media->getTitle())==0){
+				if (strcmp(title_buffer,generic_media->getTitle())==0
+					|| strcmp(title_buffer,year_buf)==0){
 					if (!search_complete){
 						cout << "--MATCHING-MEDIA--" << endl;
 					}
@@ -176,14 +182,18 @@ int main(){
 			if (!search_complete){
 				cout << "No media found with that title." << endl;
 			}
+		}else if(strcmp("QUIT",input_buffer)==0){
+			break;
 		}else if(strcmp("HELP",input_buffer)==0){
 			cout << "HELP: Display this message" << endl;
 			cout << "ADD: Add new media to the database" << endl;
 			cout << "SEARCH: Search for media in the database" << endl;
 			cout << "DELETE: Delete specific media from the database" << endl;
+			cout << "QUIT: Quit the program" << endl;
 		}else{
 			cout << "Unknown command. Use HELP for a list of commands." << endl;
 		}
 	}
+	delete media_vector;
 	return 0;
 }
